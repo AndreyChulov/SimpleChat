@@ -1,0 +1,7 @@
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat\SimpleChat\bin\Debug\SimpleChat.exe.config
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat\SimpleChat\bin\Debug\SimpleChat.exe
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat\SimpleChat\bin\Debug\SimpleChat.pdb
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat\SimpleChat\obj\Debug\SimpleChat.csproj.SuggestedBindingRedirects.cache
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat\SimpleChat\obj\Debug\SimpleChat.csproj.CoreCompileInputs.cache
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat\SimpleChat\obj\Debug\SimpleChat.exe
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat\SimpleChat\obj\Debug\SimpleChat.pdb
