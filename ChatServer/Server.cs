@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ChatServer.EventsArgs;
 
 namespace ChatServer
 {
@@ -15,8 +16,9 @@ namespace ChatServer
         private const int MAX_CLIENTS_WAITING_FOR_CONNECT = 5;
 
         public event EventHandler<Exception> AcceptClientException;
-        public event EventHandler WaitingForClientConnect;
-        public event EventHandler<Socket> ClientConnected;
+        public event EventHandler<SendDataToClientExceptionArgs> SendDataToClientException;
+        public event EventHandler<WaitingForClientConnectArgs> WaitingForClientConnect;
+        public event EventHandler<ClientConnectedArgs> ClientConnected;
 
         private int _serverPort;
         private Socket _serverSocket;
@@ -78,21 +80,34 @@ namespace ChatServer
             //clientSocket.Close();
         }
 
-        private static void SendString(Socket clientSocket, string dataToSend)
+        private void SendString(Socket clientSocket, string dataToSend)
         {
-            using (Stream sendStream = new MemoryStream())
-            using (TextWriter sendDataStremWriter = new StreamWriter(sendStream))
+            using (Stream dataStream = new MemoryStream())
+            using (BinaryWriter dataStreamWriter = new BinaryWriter(dataStream))
             {
-                byte[] dataBuffer = new byte[4096];
+                dataStreamWriter.Write(dataToSend.Length);
+                dataStreamWriter.Write(dataToSend);
+                dataStreamWriter.Flush();
+            
+                byte[] sendDataBuffer = new byte[dataStream.Position];
 
-                sendDataStremWriter.Write(dataToSend);
-                sendDataStremWriter.Flush();
+                dataStream.Seek(0, SeekOrigin.Begin);
+                
+                int readBytesFromMemoryStream = dataStream.Read(sendDataBuffer, 0, sendDataBuffer.Length);
 
-                sendStream.Seek(0, SeekOrigin.Begin);
-                sendStream.Read(dataBuffer, 0, 4096);
+                if (readBytesFromMemoryStream != sendDataBuffer.Length)
+                {
+                    SendDataToClientException?.Invoke(this,
+                        SendDataToClientExceptionArgs.Create(
+                            new Exception("Preparation data for socket send check fail"),
+                            clientSocket,
+                            sendDataBuffer,
+                            dataToSend
+                            )
+                        );
+                }
 
-                clientSocket.Send(dataBuffer);
-
+                clientSocket.Send(sendDataBuffer);
             }
         }
 
@@ -101,7 +116,7 @@ namespace ChatServer
 
             Socket clientSocket = null;
 
-            WaitingForClientConnect?.Invoke(this, EventArgs.Empty);
+            WaitingForClientConnect?.Invoke(this, WaitingForClientConnectArgs.Create(_serverSocket));
 
             try
             {
@@ -120,7 +135,7 @@ namespace ChatServer
                 AcceptClientException?.Invoke(this, ex);
             }
 
-            ClientConnected?.Invoke(this, clientSocket);
+            ClientConnected?.Invoke(this, ClientConnectedArgs.Create(_serverSocket, clientSocket));
 
             return clientSocket;
         }

@@ -12,3 +12,10 @@ C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatServer\o
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatServer\obj\Debug\ChatServer.csproj.CoreCompileInputs.cache
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatServer\obj\Debug\ChatServer.exe
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatServer\obj\Debug\ChatServer.pdb
+Z:\Мой диск\GitHub\SimpleChat\ChatServer\bin\Debug\ChatServer.exe.config
+Z:\Мой диск\GitHub\SimpleChat\ChatServer\bin\Debug\ChatServer.exe
+Z:\Мой диск\GitHub\SimpleChat\ChatServer\bin\Debug\ChatServer.pdb
+Z:\Мой диск\GitHub\SimpleChat\ChatServer\obj\Debug\ChatServer.csprojAssemblyReference.cache
+Z:\Мой диск\GitHub\SimpleChat\ChatServer\obj\Debug\ChatServer.csproj.CoreCompileInputs.cache
+Z:\Мой диск\GitHub\SimpleChat\ChatServer\obj\Debug\ChatServer.exe
+Z:\Мой диск\GitHub\SimpleChat\ChatServer\obj\Debug\ChatServer.pdb
