@@ -17,6 +17,7 @@ namespace ChatServer
 
         public event EventHandler<Exception> AcceptClientException;
         public event EventHandler<SendDataToClientExceptionArgs> SendDataToClientException;
+        public event EventHandler<ChatContentSentToClientArgs> ChatContentSentToClient;
         public event EventHandler<WaitingForClientConnectArgs> WaitingForClientConnect;
         public event EventHandler<ClientConnectedArgs> ClientConnected;
 
@@ -68,6 +69,7 @@ namespace ChatServer
             StartClientTask();
 
             SendString(clientSocket, ChatDatabase.GetChat());
+            ChatContentSentToClient?.Invoke(this, ChatContentSentToClientArgs.Create(clientSocket));
 
             while (clientSocket.Available == 0)
             {

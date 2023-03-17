@@ -14,11 +14,19 @@ namespace ChatServer
                 server.WaitingForClientConnect += Server_WaitingForClientConnect;
                 server.ClientConnected += Server_ClientConnected;
                 server.SendDataToClientException += Server_SendDataToClientException;
+                server.ChatContentSentToClient += Server_ChatContentSentToClient;
                 server.Start();
 
                 Console.ReadLine();
                 server.Stop();
             }
+        }
+
+        private static void Server_ChatContentSentToClient(object sender, ChatContentSentToClientArgs e)
+        {
+            Console.WriteLine("Chat content sent to client with " +
+                              $"local IP v4 address {GetIpV4Address(e.ClientSocket.LocalEndPoint)} " +
+                              $"and remote IP v4 address {GetIpV4Address(e.ClientSocket.RemoteEndPoint)}.");
         }
 
         private static void Server_SendDataToClientException(object sender, SendDataToClientExceptionArgs e)
@@ -33,7 +41,7 @@ namespace ChatServer
         {
             Console.WriteLine($"Client with local IP v4 address {GetIpV4Address(e.ClientSocket.LocalEndPoint)} " +
                               $"and remote IP v4 address {GetIpV4Address(e.ClientSocket.RemoteEndPoint)} " +
-                              $"connected to server with local IP v4 address {GetIpV4Address(e.ServerSocket.LocalEndPoint)}");
+                              $"connected to server with local IP v4 address {GetIpV4Address(e.ServerSocket.LocalEndPoint)}.");
         }
 
         private static string GetIpV4Address(EndPoint endPoint)
@@ -47,12 +55,12 @@ namespace ChatServer
         private static void Server_WaitingForClientConnect(object sender, WaitingForClientConnectArgs e)
         {
             Console.WriteLine($"Server with local IP v4 address {GetIpV4Address(e.ServerSocket.LocalEndPoint)} " +
-                              "waiting for client connection");
+                              "waiting for client connection.");
         }
 
         private static void Server_AcceptClientException(object sender, Exception e)
         {
-            Console.WriteLine($"Server caused exception while client acception {e.Message}");
+            Console.WriteLine($"Server caused exception while client accept [{e.Message}].");
         }
     }
 }

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatDatabase.cs" />
+    <Compile Include="EventsArgs\ChatContentSentToClientArgs.cs" />
     <Compile Include="EventsArgs\ClientConnectedArgs.cs" />
     <Compile Include="EventsArgs\SendDataToClientExceptionArgs.cs" />
     <Compile Include="EventsArgs\WaitingForClientConnectArgs.cs" />

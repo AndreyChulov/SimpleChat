@@ -17,7 +17,5 @@ namespace ChatServer.EventsArgs
             ServerSocket = serverSocket;
             ClientSocket = clientSocket;
         }
-
-        
     }
 }
