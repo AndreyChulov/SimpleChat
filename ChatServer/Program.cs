@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 
 namespace ChatServer
 {
@@ -20,7 +21,8 @@ namespace ChatServer
 
         private static void Server_ClientConnected(object sender, System.Net.Sockets.Socket e)
         {
-            Console.WriteLine($"Client with IP {e.RemoteEndPoint} connected");
+            var remoteEndPoint = (IPEndPoint)e.RemoteEndPoint;
+            Console.WriteLine($"Client with IP {remoteEndPoint.Address.MapToIPv4()} connected");
         }
 
         private static void Server_WaitingForClientConnect(object sender, EventArgs e)

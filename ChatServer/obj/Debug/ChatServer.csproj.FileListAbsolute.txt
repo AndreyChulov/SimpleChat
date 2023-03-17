@@ -5,3 +5,10 @@ C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat\ChatServer\obj\Debug\Chat
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat\ChatServer\obj\Debug\ChatServer.csproj.CoreCompileInputs.cache
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat\ChatServer\obj\Debug\ChatServer.exe
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat\ChatServer\obj\Debug\ChatServer.pdb
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatServer\bin\Debug\ChatServer.exe.config
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatServer\bin\Debug\ChatServer.exe
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatServer\bin\Debug\ChatServer.pdb
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatServer\obj\Debug\ChatServer.csproj.SuggestedBindingRedirects.cache
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatServer\obj\Debug\ChatServer.csproj.CoreCompileInputs.cache
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatServer\obj\Debug\ChatServer.exe
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatServer\obj\Debug\ChatServer.pdb

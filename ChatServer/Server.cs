@@ -61,6 +61,44 @@ namespace ChatServer
 
         private void ClientWorker()
         {
+            Socket clientSocket = AcceptClient();
+
+            StartClientTask();
+
+            SendString(clientSocket, ChatDatabase.GetChat());
+
+            while (clientSocket.Available == 0)
+            {
+                Thread.Sleep(100);
+            }
+
+
+
+            Thread.CurrentThread.Join();
+            //clientSocket.Close();
+        }
+
+        private static void SendString(Socket clientSocket, string dataToSend)
+        {
+            using (Stream sendStream = new MemoryStream())
+            using (TextWriter sendDataStremWriter = new StreamWriter(sendStream))
+            {
+                byte[] dataBuffer = new byte[4096];
+
+                sendDataStremWriter.Write(dataToSend);
+                sendDataStremWriter.Flush();
+
+                sendStream.Seek(0, SeekOrigin.Begin);
+                sendStream.Read(dataBuffer, 0, 4096);
+
+                clientSocket.Send(dataBuffer);
+
+            }
+        }
+
+        private Socket AcceptClient()
+        {
+
             Socket clientSocket = null;
 
             WaitingForClientConnect?.Invoke(this, EventArgs.Empty);
@@ -68,7 +106,7 @@ namespace ChatServer
             try
             {
                 clientSocket = _serverSocket.Accept();
-            } 
+            }
             catch (SocketException ex)
             {
                 AcceptClientException?.Invoke(this, ex);
@@ -83,20 +121,8 @@ namespace ChatServer
             }
 
             ClientConnected?.Invoke(this, clientSocket);
-            StartClientTask();
 
-            Stream ff = new MemoryStream();
-            byte[] buffer = new byte[4096];
-            TextWriter tw = new StreamWriter(ff);
-            tw.Write(ChatDatabase.GetChat());
-            tw.Flush();
-            ff.Seek(0, SeekOrigin.Begin);
-            ff.Read(buffer, 0, 4096);
-
-            clientSocket.Send(buffer);
-
-            Thread.CurrentThread.Join();
-            //clientSocket.Close();
+            return clientSocket;
         }
     }
 }

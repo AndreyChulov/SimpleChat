@@ -16,17 +16,11 @@ namespace ChatClient
             Socket socket = new Socket(SocketType.Stream, ProtocolType.IP);
             socket.Connect(new IPEndPoint(IPAddress.Loopback, 10111));
 
-            Console.WriteLine(socket.ToString());
+            Console.WriteLine($"Clinet connected Local {socket.LocalEndPoint} Remote {socket.RemoteEndPoint}");
 
-            byte[] buffer = new byte[4096];
-            var chatBytes = socket.Receive(buffer);
-            var ms = new MemoryStream();
-            ms.Write(buffer, 0, chatBytes);
-            TextReader tr = new StreamReader(ms);
-            ms.Seek(0, SeekOrigin.Begin);
-            var chatContent = tr.ReadToEnd();
+            string chatContent = RecieveString(socket);
 
-            Console.WriteLine(chatContent.TrimEnd('\0'));
+            Console.WriteLine(chatContent);
 
             Console.ReadLine();
 
@@ -34,6 +28,22 @@ namespace ChatClient
             socket.Dispose();
 
 
+        }
+
+        private static string RecieveString(Socket socket)
+        {
+            byte[] dataBuffer = new byte[4096];
+
+            var recievedBytesCount = socket.Receive(dataBuffer);
+
+            using (var recieveMemoryStream = new MemoryStream())
+            using (TextReader receivedTextReader = new StreamReader(recieveMemoryStream))
+            {
+                recieveMemoryStream.Write(dataBuffer, 0, recievedBytesCount);
+                recieveMemoryStream.Seek(0, SeekOrigin.Begin);
+                var chatContent = receivedTextReader.ReadToEnd();
+                return chatContent.TrimEnd('\0');
+            }
         }
     }
 }
