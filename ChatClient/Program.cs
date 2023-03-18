@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities;
 
 namespace ChatClient
 {
@@ -18,9 +19,20 @@ namespace ChatClient
 
             Console.WriteLine($"Clinet connected Local {socket.LocalEndPoint} Remote {socket.RemoteEndPoint}");
 
-            string chatContent = RecieveString(socket);
+            string chatContent = SocketUtility.ReceiveString(socket,
+                () =>
+                {
+                    Console.WriteLine($"Receive string size check from server client side exception");
+                }, () =>
+                {
+                    Console.WriteLine($"Receive string data check from server client side exception");
+                });
 
             Console.WriteLine(chatContent);
+            
+            Console.Write("Your message:");
+            var message = Console.ReadLine();
+            SocketUtility.SendString(socket, message, () => {});
 
             Console.ReadLine();
 
@@ -28,22 +40,6 @@ namespace ChatClient
             socket.Dispose();
 
 
-        }
-
-        private static string RecieveString(Socket socket)
-        {
-            byte[] dataBuffer = new byte[4096];
-
-            var recievedBytesCount = socket.Receive(dataBuffer);
-
-            using (var recieveMemoryStream = new MemoryStream())
-            using (TextReader receivedTextReader = new StreamReader(recieveMemoryStream))
-            {
-                recieveMemoryStream.Write(dataBuffer, 0, recievedBytesCount);
-                recieveMemoryStream.Seek(0, SeekOrigin.Begin);
-                var chatContent = receivedTextReader.ReadToEnd();
-                return chatContent.TrimEnd('\0');
-            }
         }
     }
 }

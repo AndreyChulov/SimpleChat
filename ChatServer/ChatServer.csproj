@@ -44,16 +44,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatDatabase.cs" />
-    <Compile Include="EventsArgs\ChatContentSentToClientArgs.cs" />
+    <Compile Include="EventsArgs\ClientSocketEventArgs.cs" />
     <Compile Include="EventsArgs\ClientConnectedArgs.cs" />
-    <Compile Include="EventsArgs\SendDataToClientExceptionArgs.cs" />
-    <Compile Include="EventsArgs\WaitingForClientConnectArgs.cs" />
+    <Compile Include="EventsArgs\ClientSocketExceptionArgs.cs" />
+    <Compile Include="EventsArgs\ServerSocketEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{8dfeda70-9bf1-4d3f-9de6-fd9e116e9f6d}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

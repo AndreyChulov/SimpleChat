@@ -12,3 +12,13 @@ C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatClient\o
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatClient\obj\Debug\ChatClient.csproj.CoreCompileInputs.cache
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatClient\obj\Debug\ChatClient.exe
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatClient\obj\Debug\ChatClient.pdb
+Z:\Мой диск\GitHub\SimpleChat\ChatClient\bin\Debug\ChatClient.exe.config
+Z:\Мой диск\GitHub\SimpleChat\ChatClient\bin\Debug\ChatClient.exe
+Z:\Мой диск\GitHub\SimpleChat\ChatClient\bin\Debug\ChatClient.pdb
+Z:\Мой диск\GitHub\SimpleChat\ChatClient\obj\Debug\ChatClient.csprojAssemblyReference.cache
+Z:\Мой диск\GitHub\SimpleChat\ChatClient\obj\Debug\ChatClient.csproj.CoreCompileInputs.cache
+Z:\Мой диск\GitHub\SimpleChat\ChatClient\obj\Debug\ChatClient.exe
+Z:\Мой диск\GitHub\SimpleChat\ChatClient\obj\Debug\ChatClient.pdb
+Z:\Мой диск\GitHub\SimpleChat\ChatClient\bin\Debug\Utilities.dll
+Z:\Мой диск\GitHub\SimpleChat\ChatClient\bin\Debug\Utilities.pdb
+Z:\Мой диск\GitHub\SimpleChat\ChatClient\obj\Debug\ChatClient.csproj.CopyComplete

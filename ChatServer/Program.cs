@@ -15,6 +15,9 @@ namespace ChatServer
                 server.ClientConnected += Server_ClientConnected;
                 server.SendDataToClientException += Server_SendDataToClientException;
                 server.ChatContentSentToClient += Server_ChatContentSentToClient;
+                server.WaitingDataFromClient += Server_WaitingDataFromClient;
+                server.ReceiveDataFromClientException += Server_ReceiveDataFromClientException;
+                server.ClientMessageReceived += ServerClientMessageReceived;
                 server.Start();
 
                 Console.ReadLine();
@@ -22,14 +25,34 @@ namespace ChatServer
             }
         }
 
-        private static void Server_ChatContentSentToClient(object sender, ChatContentSentToClientArgs e)
+        private static void ServerClientMessageReceived(object sender, string e)
+        {
+            Console.WriteLine($"Client message [{e}] received");
+        }
+
+        private static void Server_ReceiveDataFromClientException(object sender, ClientSocketExceptionArgs e)
+        {
+            Console.WriteLine("Receiving data from client with " +
+                              $"local IP v4 address {GetIpV4Address(e.ClientSocket.LocalEndPoint)} " +
+                              $"and remote IP v4 address {GetIpV4Address(e.ClientSocket.RemoteEndPoint)} " +
+                              $"caused exception [{e.Exception.Message}] on server side.");
+        }
+
+        private static void Server_WaitingDataFromClient(object sender, ClientSocketEventArgs e)
+        {
+            Console.WriteLine("Waiting data from client with " +
+                              $"local IP v4 address {GetIpV4Address(e.ClientSocket.LocalEndPoint)} " +
+                              $"and remote IP v4 address {GetIpV4Address(e.ClientSocket.RemoteEndPoint)}.");
+        }
+
+        private static void Server_ChatContentSentToClient(object sender, ClientSocketEventArgs e)
         {
             Console.WriteLine("Chat content sent to client with " +
                               $"local IP v4 address {GetIpV4Address(e.ClientSocket.LocalEndPoint)} " +
                               $"and remote IP v4 address {GetIpV4Address(e.ClientSocket.RemoteEndPoint)}.");
         }
 
-        private static void Server_SendDataToClientException(object sender, SendDataToClientExceptionArgs e)
+        private static void Server_SendDataToClientException(object sender, ClientSocketExceptionArgs e)
         {
             Console.WriteLine("Send data to client with " +
                               $"local IP v4 address {GetIpV4Address(e.ClientSocket.LocalEndPoint)} " +
@@ -52,7 +75,7 @@ namespace ChatServer
             return $"[{ip}]:{port}";
         }
 
-        private static void Server_WaitingForClientConnect(object sender, WaitingForClientConnectArgs e)
+        private static void Server_WaitingForClientConnect(object sender, ServerSocketEventArgs e)
         {
             Console.WriteLine($"Server with local IP v4 address {GetIpV4Address(e.ServerSocket.LocalEndPoint)} " +
                               "waiting for client connection.");

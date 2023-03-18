@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ChatServer.EventsArgs;
+using Utilities;
 
 namespace ChatServer
 {
@@ -16,10 +17,13 @@ namespace ChatServer
         private const int MAX_CLIENTS_WAITING_FOR_CONNECT = 5;
 
         public event EventHandler<Exception> AcceptClientException;
-        public event EventHandler<SendDataToClientExceptionArgs> SendDataToClientException;
-        public event EventHandler<ChatContentSentToClientArgs> ChatContentSentToClient;
-        public event EventHandler<WaitingForClientConnectArgs> WaitingForClientConnect;
+        public event EventHandler<ClientSocketExceptionArgs> SendDataToClientException;
+        public event EventHandler<ClientSocketExceptionArgs> ReceiveDataFromClientException;
+        public event EventHandler<ClientSocketEventArgs> ChatContentSentToClient;
+        public event EventHandler<ServerSocketEventArgs> WaitingForClientConnect;
+        public event EventHandler<ClientSocketEventArgs> WaitingDataFromClient;
         public event EventHandler<ClientConnectedArgs> ClientConnected;
+        public event EventHandler<string> ClientMessageReceived;
 
         private int _serverPort;
         private Socket _serverSocket;
@@ -68,49 +72,44 @@ namespace ChatServer
 
             StartClientTask();
 
-            SendString(clientSocket, ChatDatabase.GetChat());
-            ChatContentSentToClient?.Invoke(this, ChatContentSentToClientArgs.Create(clientSocket));
+            SocketUtility.SendString(clientSocket, ChatDatabase.GetChat(),
+                () =>
+                {
+                    SendDataToClientException?.Invoke(this,
+                        ClientSocketExceptionArgs.Create(
+                            new Exception("Preparation data for socket send check fail"),
+                            clientSocket
+                        )
+                    );
+                });
+            ChatContentSentToClient?.Invoke(this, ClientSocketEventArgs.Create(clientSocket));
 
-            while (clientSocket.Available == 0)
-            {
-                Thread.Sleep(100);
-            }
+            WaitingDataFromClient?.Invoke(this, ClientSocketEventArgs.Create(clientSocket));
+            SocketUtility.WaitDataFromClient(clientSocket);
+            var chatMessage = SocketUtility.ReceiveString(clientSocket, () =>
+                {
+                    ReceiveDataFromClientException?.Invoke(this,
+                        ClientSocketExceptionArgs.Create(
+                            new Exception("Retrieving string size from socket check fail"),
+                            clientSocket
+                        )
+                    );
+                },
+                () =>
+                {
+                    ReceiveDataFromClientException?.Invoke(this,
+                        ClientSocketExceptionArgs.Create(
+                            new Exception("Retrieving string from socket check fail"),
+                            clientSocket
+                        )
+                    );
+                });
+            ClientMessageReceived?.Invoke(this, chatMessage);
 
-
+            ChatDatabase.AddMessage(chatMessage);
 
             Thread.CurrentThread.Join();
             //clientSocket.Close();
-        }
-
-        private void SendString(Socket clientSocket, string dataToSend)
-        {
-            using (Stream dataStream = new MemoryStream())
-            using (BinaryWriter dataStreamWriter = new BinaryWriter(dataStream))
-            {
-                dataStreamWriter.Write(dataToSend.Length);
-                dataStreamWriter.Write(dataToSend);
-                dataStreamWriter.Flush();
-            
-                byte[] sendDataBuffer = new byte[dataStream.Position];
-
-                dataStream.Seek(0, SeekOrigin.Begin);
-                
-                int readBytesFromMemoryStream = dataStream.Read(sendDataBuffer, 0, sendDataBuffer.Length);
-
-                if (readBytesFromMemoryStream != sendDataBuffer.Length)
-                {
-                    SendDataToClientException?.Invoke(this,
-                        SendDataToClientExceptionArgs.Create(
-                            new Exception("Preparation data for socket send check fail"),
-                            clientSocket,
-                            sendDataBuffer,
-                            dataToSend
-                            )
-                        );
-                }
-
-                clientSocket.Send(sendDataBuffer);
-            }
         }
 
         private Socket AcceptClient()
@@ -118,7 +117,7 @@ namespace ChatServer
 
             Socket clientSocket = null;
 
-            WaitingForClientConnect?.Invoke(this, WaitingForClientConnectArgs.Create(_serverSocket));
+            WaitingForClientConnect?.Invoke(this, ServerSocketEventArgs.Create(_serverSocket));
 
             try
             {

@@ -19,3 +19,6 @@ Z:\Мой диск\GitHub\SimpleChat\ChatServer\obj\Debug\ChatServer.csprojAssem
 Z:\Мой диск\GitHub\SimpleChat\ChatServer\obj\Debug\ChatServer.csproj.CoreCompileInputs.cache
 Z:\Мой диск\GitHub\SimpleChat\ChatServer\obj\Debug\ChatServer.exe
 Z:\Мой диск\GitHub\SimpleChat\ChatServer\obj\Debug\ChatServer.pdb
+Z:\Мой диск\GitHub\SimpleChat\ChatServer\bin\Debug\Utilities.dll
+Z:\Мой диск\GitHub\SimpleChat\ChatServer\bin\Debug\Utilities.pdb
+Z:\Мой диск\GitHub\SimpleChat\ChatServer\obj\Debug\ChatServer.csproj.CopyComplete
