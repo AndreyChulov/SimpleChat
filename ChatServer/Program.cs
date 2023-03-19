@@ -18,11 +18,19 @@ namespace ChatServer
                 server.WaitingDataFromClient += Server_WaitingDataFromClient;
                 server.ReceiveDataFromClientException += Server_ReceiveDataFromClientException;
                 server.ClientMessageReceived += ServerClientMessageReceived;
+                server.ClientDisconnected += Server_ClientDisconnected;
                 server.Start();
 
                 Console.ReadLine();
                 server.Stop();
             }
+        }
+
+        private static void Server_ClientDisconnected(object sender, ClientSocketEventArgs e)
+        {
+            Console.WriteLine("Client with " +
+                              $"local IP v4 address {GetIpV4Address(e.ClientSocket.LocalEndPoint)} " +
+                              $"and remote IP v4 address {GetIpV4Address(e.ClientSocket.RemoteEndPoint)} disconnected.");
         }
 
         private static void ServerClientMessageReceived(object sender, string e)

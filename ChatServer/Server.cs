@@ -24,6 +24,7 @@ namespace ChatServer
         public event EventHandler<ClientSocketEventArgs> WaitingDataFromClient;
         public event EventHandler<ClientConnectedArgs> ClientConnected;
         public event EventHandler<string> ClientMessageReceived;
+        public event EventHandler<ClientSocketEventArgs> ClientDisconnected;
 
         private int _serverPort;
         private Socket _serverSocket;
@@ -72,20 +73,24 @@ namespace ChatServer
 
             StartClientTask();
 
-            SocketUtility.SendString(clientSocket, ChatDatabase.GetChat(),
-                () =>
-                {
-                    SendDataToClientException?.Invoke(this,
-                        ClientSocketExceptionArgs.Create(
-                            new Exception("Preparation data for socket send check fail"),
-                            clientSocket
-                        )
-                    );
-                });
-            ChatContentSentToClient?.Invoke(this, ClientSocketEventArgs.Create(clientSocket));
+            SendChatContentToClient(clientSocket);
+            WaitForDataFromClientAvailable(clientSocket);
+            var chatMessage = ReceiveChatMessageFromClient(clientSocket);
+            ChatDatabase.AddMessage(chatMessage);
 
-            WaitingDataFromClient?.Invoke(this, ClientSocketEventArgs.Create(clientSocket));
-            SocketUtility.WaitDataFromClient(clientSocket);
+            DisconnectClient(clientSocket);
+        }
+
+        private void DisconnectClient(Socket clientSocket)
+        {
+            clientSocket.Disconnect(false);
+            ClientDisconnected?.Invoke(this, ClientSocketEventArgs.Create(clientSocket));
+            clientSocket.Close();
+            clientSocket.Dispose();
+        }
+
+        private string ReceiveChatMessageFromClient(Socket clientSocket)
+        {
             var chatMessage = SocketUtility.ReceiveString(clientSocket, () =>
                 {
                     ReceiveDataFromClientException?.Invoke(this,
@@ -105,11 +110,28 @@ namespace ChatServer
                     );
                 });
             ClientMessageReceived?.Invoke(this, chatMessage);
+            return chatMessage;
+        }
 
-            ChatDatabase.AddMessage(chatMessage);
+        private void WaitForDataFromClientAvailable(Socket clientSocket)
+        {
+            WaitingDataFromClient?.Invoke(this, ClientSocketEventArgs.Create(clientSocket));
+            SocketUtility.WaitDataFromClient(clientSocket);
+        }
 
-            Thread.CurrentThread.Join();
-            //clientSocket.Close();
+        private void SendChatContentToClient(Socket clientSocket)
+        {
+            SocketUtility.SendString(clientSocket, ChatDatabase.GetChat(),
+                () =>
+                {
+                    SendDataToClientException?.Invoke(this,
+                        ClientSocketExceptionArgs.Create(
+                            new Exception("Preparation data for socket send check fail"),
+                            clientSocket
+                        )
+                    );
+                });
+            ChatContentSentToClient?.Invoke(this, ClientSocketEventArgs.Create(clientSocket));
         }
 
         private Socket AcceptClient()
