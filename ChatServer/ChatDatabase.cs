@@ -14,7 +14,9 @@ namespace ChatServer
 
         public static string GetChat()
         {
-            return _chatLines.Aggregate("", (accumulate, line) => $"{accumulate}\n{line}");
+            return _chatLines
+                .Aggregate("", (accumulate, line) => $"{accumulate}\n{line}")
+                .TrimStart('\n');
         }
     }
 }
