@@ -17,7 +17,7 @@ namespace ChatClient
         {
             var socket = ConnectClientToServer(new IPEndPoint(IPAddress.Loopback, 10111));
 
-            var chatContent = ReceiveChatContent(socket);
+            var chatContent = ReceiveChatContent(socket);//тут ошибка, недостаточный размер буфера, - разрулить
 
             ShowChatContent(chatContent);
 
