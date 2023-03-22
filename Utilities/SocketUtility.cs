@@ -7,14 +7,14 @@ namespace Utilities
 {
     public static class SocketUtility
     {
-        public static string ReceiveString(Socket clientSocket, 
+        public static string ReceiveString(Socket socket, 
             Action onReceiveDataSizeCheckFail, Action onReceiveDataCheckFail)
         {
             using (Stream dataStream = new MemoryStream())
             using (BinaryReader dataStreamReader = new BinaryReader(dataStream))
             {
-                var dataSize = ReceiveDataSize(clientSocket, dataStream, dataStreamReader, onReceiveDataSizeCheckFail);
-                ReceiveDataToStream(clientSocket, dataSize, dataStream, onReceiveDataCheckFail);
+                var dataSize = ReceiveDataSize(socket, dataStream, dataStreamReader, onReceiveDataSizeCheckFail);
+                ReceiveDataToStream(socket, dataSize, dataStream, onReceiveDataCheckFail);
                 
                 dataStream.Seek(0, SeekOrigin.Begin);
                 return dataStreamReader.ReadString();
@@ -22,7 +22,7 @@ namespace Utilities
         }
         
         private static void ReceiveDataToStream(
-            Socket clientSocket, long dataSize, 
+            Socket socket, long dataSize, 
             Stream dataStream, Action onReceiveDataCheckFail)
         {
             var maxBufferSize = 1024;
@@ -32,22 +32,22 @@ namespace Utilities
             
             while (remainingDataSize > maxBufferSize)
             {
-                ReceiveBufferToStream(clientSocket, dataStream, maxBufferSize, onReceiveDataCheckFail);
+                ReceiveBufferToStream(socket, dataStream, maxBufferSize, onReceiveDataCheckFail);
 
                 remainingDataSize -= maxBufferSize;
             }
             
-            ReceiveBufferToStream(clientSocket, dataStream, (int)remainingDataSize, onReceiveDataCheckFail);
+            ReceiveBufferToStream(socket, dataStream, (int)remainingDataSize, onReceiveDataCheckFail);
         }
 
         private static void ReceiveBufferToStream(
-            Socket clientSocket, Stream dataStream, int bufferSize,
+            Socket socket, Stream dataStream, int bufferSize,
             Action onReceiveDataCheckFail)
         {
-            WaitDataFromClient(clientSocket, bufferSize);
+            WaitDataFromSocket(socket, bufferSize);
 
             byte[] dataBuffer = new byte[bufferSize];
-            var receivedBufferSize = clientSocket.Receive(dataBuffer);
+            var receivedBufferSize = socket.Receive(dataBuffer);
 
             if (receivedBufferSize != bufferSize)
             {
@@ -57,12 +57,13 @@ namespace Utilities
             dataStream.Write(dataBuffer, 0, bufferSize);
         }
 
-        private static long ReceiveDataSize(Socket clientSocket, Stream dataStream, 
+        private static long ReceiveDataSize(Socket socket, Stream dataStream, 
             BinaryReader dataStreamReader, Action onReceiveDataCheckFail)
         {
-            WaitDataFromClient(clientSocket, sizeof(long));
+            WaitDataFromSocket(socket, sizeof(long));
+
             byte[] dataBuffer = new byte[sizeof(long)];
-            var receivedBufferSize = clientSocket.Receive(dataBuffer);
+            var receivedBufferSize = socket.Receive(dataBuffer);
 
             if (receivedBufferSize != dataBuffer.Length)
             {
@@ -75,12 +76,12 @@ namespace Utilities
             return dataStreamReader.ReadInt64();
         }
 
-        public static void WaitDataFromClient(Socket clientSocket)
+        public static void WaitDataFromSocket(Socket clientSocket)
         {
-            WaitDataFromClient(clientSocket, 1);
+            WaitDataFromSocket(clientSocket, 1);
         }
 
-        private static void WaitDataFromClient(Socket clientSocket, int waitForBytesAvailable)
+        private static void WaitDataFromSocket(Socket clientSocket, int waitForBytesAvailable)
         {
             while (clientSocket.Available < waitForBytesAvailable)
             {
@@ -88,7 +89,7 @@ namespace Utilities
             }
         }
 
-        public static void SendString(Socket clientSocket, string dataToSend, Action onSendDataCheckFail)
+        public static void SendString(Socket socket, string dataToSend, Action onSendDataCheckFail)
         {
             using (Stream dataStream = new MemoryStream())
             using (BinaryWriter dataStreamWriter = new BinaryWriter(dataStream))
@@ -119,7 +120,7 @@ namespace Utilities
                     onSendDataCheckFail();
                 }
 
-                clientSocket.Send(sendDataBuffer);
+                socket.Send(sendDataBuffer);
             }
         }
 

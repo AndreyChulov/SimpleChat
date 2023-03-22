@@ -116,7 +116,7 @@ namespace ChatServer
         private void WaitForDataFromClientAvailable(Socket clientSocket)
         {
             WaitingDataFromClient?.Invoke(this, ClientSocketEventArgs.Create(clientSocket));
-            SocketUtility.WaitDataFromClient(clientSocket);
+            SocketUtility.WaitDataFromSocket(clientSocket);
         }
 
         private void SendChatContentToClient(Socket clientSocket)
