@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Utilities;
 
 namespace ChatClient
@@ -17,7 +12,7 @@ namespace ChatClient
         {
             var socket = ConnectClientToServer(new IPEndPoint(IPAddress.Loopback, 10111));
 
-            var chatContent = ReceiveChatContent(socket);//тут ошибка, недостаточный размер буфера, - разрулить
+            var chatContent = ReceiveChatContent(socket);
 
             ShowChatContent(chatContent);
 
@@ -26,7 +21,7 @@ namespace ChatClient
             SendMessageToServer(socket, message);
             
             /*
-             * Потенциально буден нужна в ходе дальнейшей разработки
+             * Потенциально будет нужна в ходе дальнейшей разработки
              * В текущей версии строку ожидания Enter заменяет ожидание в
              * 1 секунду ниже
              */
