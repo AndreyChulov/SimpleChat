@@ -22,3 +22,7 @@ Z:\Мой диск\GitHub\SimpleChat\ChatClient\obj\Debug\ChatClient.pdb
 Z:\Мой диск\GitHub\SimpleChat\ChatClient\bin\Debug\Utilities.dll
 Z:\Мой диск\GitHub\SimpleChat\ChatClient\bin\Debug\Utilities.pdb
 Z:\Мой диск\GitHub\SimpleChat\ChatClient\obj\Debug\ChatClient.csproj.CopyComplete
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatClient\bin\Debug\Utilities.dll
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatClient\bin\Debug\Utilities.pdb
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatClient\obj\Debug\ChatClient.csproj.AssemblyReference.cache
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\ChatClient\obj\Debug\ChatClient.csproj.CopyComplete

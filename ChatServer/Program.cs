@@ -8,6 +8,7 @@ namespace ChatServer
     {
         static void Main(string[] args)
         {
+
             using (var server = Server.Initialise(10111))
             {
                 server.AcceptClientException += Server_AcceptClientException;

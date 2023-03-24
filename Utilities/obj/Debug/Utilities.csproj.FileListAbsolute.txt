@@ -4,3 +4,9 @@ Z:\Мой диск\GitHub\SimpleChat\Utilities\obj\Debug\Utilities.csprojAssembl
 Z:\Мой диск\GitHub\SimpleChat\Utilities\obj\Debug\Utilities.csproj.CoreCompileInputs.cache
 Z:\Мой диск\GitHub\SimpleChat\Utilities\obj\Debug\Utilities.dll
 Z:\Мой диск\GitHub\SimpleChat\Utilities\obj\Debug\Utilities.pdb
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\Utilities\bin\Debug\Utilities.dll
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\Utilities\bin\Debug\Utilities.pdb
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\Utilities\obj\Debug\Utilities.csproj.AssemblyReference.cache
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\Utilities\obj\Debug\Utilities.csproj.CoreCompileInputs.cache
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\Utilities\obj\Debug\Utilities.dll
+C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\Utilities\obj\Debug\Utilities.pdb
