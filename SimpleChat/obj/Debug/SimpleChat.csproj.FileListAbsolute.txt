@@ -12,7 +12,6 @@ C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\SimpleChat\o
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\SimpleChat\obj\Debug\SimpleChat.csproj.CoreCompileInputs.cache
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\SimpleChat\obj\Debug\SimpleChat.exe
 C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\SimpleChat\obj\Debug\SimpleChat.pdb
-C:\Users\t.student\Documents\PV111(Teacher)\SimpleChat_1\SimpleChat\SimpleChat\obj\Debug\SimpleChat.csproj.AssemblyReference.cache
 Z:\Мой диск\GitHub\SimpleChat\SimpleChat\bin\Debug\SimpleChat.exe.config
 Z:\Мой диск\GitHub\SimpleChat\SimpleChat\bin\Debug\SimpleChat.exe
 Z:\Мой диск\GitHub\SimpleChat\SimpleChat\bin\Debug\SimpleChat.pdb

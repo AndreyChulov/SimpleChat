@@ -10,28 +10,33 @@ namespace ChatClient
     {
         static void Main(string[] args)
         {
-            var socket = ConnectClientToServer(new IPEndPoint(IPAddress.Loopback, 10111));
+            using (var serverLocator = new ServerLocator())
+            {
+                serverLocator.Start();
 
-            var chatContent = ReceiveChatContent(socket);
+                var socket = ConnectClientToServer(new IPEndPoint(IPAddress.Loopback, 10111));
 
-            ShowChatContent(chatContent);
+                var chatContent = ReceiveChatContent(socket);
 
-            var message = GetClientMessage();
+                ShowChatContent(chatContent);
 
-            SendMessageToServer(socket, message);
-            
-            /*
-             * Потенциально будет нужна в ходе дальнейшей разработки
-             * В текущей версии строку ожидания Enter заменяет ожидание в
-             * 1 секунду ниже
-             */
-            //WaitForEnterPressedToCloseApplication();
+                var message = GetClientMessage();
 
-            DisconnectClientFromServer(socket);
-            
-            Thread.Sleep(TimeSpan.FromSeconds(1));
-            
-            DisposeClientSocket(socket);
+                SendMessageToServer(socket, message);
+
+                /*
+                 * Потенциально будет нужна в ходе дальнейшей разработки
+                 * В текущей версии строку ожидания Enter заменяет ожидание в
+                 * 1 секунду ниже
+                 */
+                //WaitForEnterPressedToCloseApplication();
+
+                DisconnectClientFromServer(socket);
+
+                Thread.Sleep(TimeSpan.FromSeconds(1));
+
+                DisposeClientSocket(socket);
+            }
         }
 
         private static void DisposeClientSocket(Socket socket)
